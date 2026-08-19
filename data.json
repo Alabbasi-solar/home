@@ -1,0 +1,10 @@
+{
+  "galleryTitle": "معرض الصور الذكي",
+  "galleryTitleEn": "Smart Photo Gallery",
+  "galleryDesc": "لقطات حية لأحدث تقنيات ومنظومات الطاقة الشمسية المركبة.",
+  "articleTitle": "عنوان المقال التقني",
+  "articleContent": "محتوى المقال هنا...",
+  "posts": [
+    { "title": "ولاية الخرطوم", "desc": "وصف المشروع هنا.", "img": "رابط الصورة" }
+  ]
+}
