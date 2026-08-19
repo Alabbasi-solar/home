@@ -21,6 +21,7 @@
             <p class="text-slate-400 text-sm">أدخل كلمة السر للدخول (abbasi2026)</p>
         </div>
         <div class="space-y-4">
+            <!-- تم إخفاء كلمة السر هنا لتظهر على شكل نقاط -->
             <input id="password-input" type="password" placeholder="كلمة السر..." class="w-full bg-slate-900/90 border border-slate-700 p-3.5 rounded-xl focus:border-amber-500 outline-none text-center text-lg tracking-widest" onkeyup="if(event.key === 'Enter') checkPassword()">
             <button onclick="checkPassword()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg text-base">دخول</button>
             <p id="error-msg" class="text-red-400 text-xs hidden font-bold">كلمة السر غير صحيحة!</p>
@@ -97,7 +98,6 @@
                 
                 const container = document.getElementById('projects-container');
                 container.innerHTML = '';
-                // يعرض فقط المشاريع الموجودة فعلياً في التخزين دون إضافة قيم افتراضية من عنده
                 if (data.posts && data.posts.length > 0) {
                     data.posts.forEach(p => addProjectField(p.title, p.img, p.desc));
                 }
