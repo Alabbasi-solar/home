@@ -11,7 +11,6 @@
     <meta name="description" content="شركة العباسي لخدمات الطاقة الشمسية في السودان. أفضل حلول الطاقة النظيفة، الألواح، الإنفرترات، والمضخات الزراعية.">
     <meta name="keywords" content="طاقة شمسية السودان, العباسي للطاقة, ألواح شمسية, إنفرترات, مضخات زراعية الخرطوم">
     <meta name="robots" content="index, follow">
-    <!-- رابط الرابط الأساسي لأرشفة جوجل (Canonical) -->
     <link rel="canonical" href="https://alabbasi-solar.github.io/home/">
 
     <!-- مكتبة التصميم Tailwind CSS -->
@@ -177,14 +176,16 @@
         </div>
     </section>
 
-    <!-- قسم مشاريعنا في الولايات -->
+    <!-- قسم مشاريعنا في الولايات (مرتبط بقاعدة البيانات) -->
     <section id="portfolio" class="py-24 px-6 bg-slate-950/60 border-y border-slate-800/80">
         <div class="container mx-auto">
             <div class="text-center max-w-2xl mx-auto mb-16">
                 <h2 class="text-4xl font-black text-amber-500 mb-3" data-ar="مشاريعنا في الولايات" data-en="Our Projects in States">مشاريعنا في الولايات</h2>
                 <p class="text-slate-400" data-ar="نظرة على إنجازاتنا ومنظوماتنا المركبة بمختلف ولايات السودان." data-en="A look at our achievements and installed systems across various states of Sudan.">نظرة على إنجازاتنا ومنظوماتنا المركبة بمختلف ولايات السودان.</p>
             </div>
-            <div id="dynamic-posts-container" class="grid md:grid-cols-3 gap-8"></div>
+            <div id="dynamic-posts-container" class="grid md:grid-cols-3 gap-8">
+                <p style="text-align: center; grid-column: span 3;" class="text-slate-400">جاري تحميل المشاريع من قاعدة البيانات...</p>
+            </div>
         </div>
     </section>
 
@@ -307,8 +308,24 @@
         </div>
     </footer>
 
-    <!-- السكريبت البرمجي الشامل -->
-    <script>
+    <!-- السكريبت البرمجي المحدث مع Firebase Firestore -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+        // إعدادات قاعدة البيانات الخاصة بك
+        const firebaseConfig = {
+            apiKey: "AIzaSyAkBwC9RiS_QsXJYs6qDo4XmQ55p3uK4hU",
+            authDomain: "alabbasi-solar.firebaseapp.com",
+            projectId: "alabbasi-solar",
+            storageBucket: "alabbasi-solar.firebasestorage.app",
+            messagingSenderId: "522197662823",
+            appId: "1:522197662823:web:d34b5d0fae2677424628c2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         if (top !== self) top.location = self.location;
 
         let currentSlide = 0;
@@ -317,7 +334,7 @@
         let siteData = {};
         let slideInterval;
 
-        function toggleLanguage() {
+        window.toggleLanguage = function() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
             const root = document.getElementById('html-root');
             root.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
@@ -332,40 +349,55 @@
             renderDynamicData();
         }
 
-        function loadSiteData() {
-            // إعادة إدراج الولايات والقيم الافتراضية
-            siteData = JSON.parse(localStorage.getItem('abbasi_cms')) || {
-                galleryTitle: "معرض الصور الذكي",
-                galleryTitleEn: "Smart Photo Gallery",
-                galleryDesc: "لقطات حية لأحدث تقنيات ومنظومات الطاقة الشمسية المركبة.",
-                galleryDescEn: "Live shots of the latest installed solar systems.",
-                galleryImages: [
-                    "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=1200",
-                    "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=1200"
-                ],
-                articleTitle: "أهمية اختيار الإنفرتر المناسب للأحمال المنزلية والزراعية",
-                articleTitleEn: "The Importance of Choosing the Right Inverter",
-                articleContent: "يعتبر الإنفرتر (العاكس) بمثابة قلب منظومة الطاقة الشمسية النابض. اختيار الإنفرتر ذو الموجة النقية (Pure Sine Wave) يحمي أجهزتك الحساسة مثل الثلاجات والمكيفات ويطيل من عمرها الافتراضي.",
-                articleContentEn: "The inverter is the beating heart of the solar system. Choosing a Pure Sine Wave inverter protects your sensitive appliances.",
-                posts: [
-                    { 
-                        title: "ولاية الخرطوم", 
-                        titleEn: "Khartoum State", 
-                        desc: "تركيب منظومة طاقة شمسية هجينة متكاملة للمنازل.", 
-                        descEn: "Installation of an integrated hybrid solar power system for homes.", 
-                        img: "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=600" 
-                    },
-                    { 
-                        title: "ولاية الجزيرة", 
-                        titleEn: "Al Jazirah State", 
-                        desc: "تشغيل مضخات الآبار الجوفية الزراعية بالطاقة الشمسية المباشرة.", 
-                        descEn: "Operation of agricultural deep well pumps with direct solar energy.", 
-                        img: "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=600" 
-                    }
-                ],
-                phone: "+249920025392",
-                address: "الخرطوم، السودان"
-            };
+        async function loadSiteData() {
+            try {
+                // جلب المشاريع أو المقالات من مجموعة 'posts' في قاعدة بيانات Firebase Firestore
+                const querySnapshot = await getDocs(collection(db, "posts"));
+                let fetchedPosts = [];
+                
+                querySnapshot.forEach((doc) => {
+                    fetchedPosts.push(doc.data());
+                });
+
+                siteData = {
+                    galleryTitle: "معرض الصور الذكي",
+                    galleryTitleEn: "Smart Photo Gallery",
+                    galleryDesc: "لقطات حية لأحدث تقنيات ومنظومات الطاقة الشمسية المركبة.",
+                    galleryDescEn: "Live shots of the latest installed solar systems.",
+                    galleryImages: [
+                        "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=1200",
+                        "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=1200"
+                    ],
+                    articleTitle: "أهمية اختيار الإنفرتر المناسب للأحمال المنزلية والزراعية",
+                    articleTitleEn: "The Importance of Choosing the Right Inverter",
+                    articleContent: "يعتبر الإنفرتر (العاكس) بمثابة قلب منظومة الطاقة الشمسية النابض. اختيار الإنفرتر ذو الموجة النقية (Pure Sine Wave) يحمي أجهزتك الحساسة مثل الثلاجات والمكيفات ويطيل من عمرها الافتراضي.",
+                    articleContentEn: "The inverter is the beating heart of the solar system. Choosing a Pure Sine Wave inverter protects your sensitive appliances.",
+                    posts: fetchedPosts.length > 0 ? fetchedPosts : [
+                        { 
+                            title: "ولاية الخرطوم", 
+                            titleEn: "Khartoum State", 
+                            desc: "تركيب منظومة طاقة شمسية هجينة متكاملة للمنازل.", 
+                            descEn: "Installation of an integrated hybrid solar power system for homes.", 
+                            img: "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=600" 
+                        }
+                    ],
+                    phone: "+249920025392",
+                    address: "الخرطوم، السودان"
+                };
+            } catch (error) {
+                console.error("خطأ في الاتصال بقاعدة البيانات:", error);
+                // بيانات احتياطية في حال خطأ الشبكة
+                siteData = {
+                    galleryTitle: "معرض الصور الذكي",
+                    galleryDesc: "لقطات حية لأحدث تقنيات ومنظومات الطاقة الشمسية المركبة.",
+                    articleTitle: "أهمية اختيار الإنفرتر المناسب",
+                    articleContent: "يعتبر الإنفرتر (العاكس) بمثابة قلب منظومة الطاقة الشمسية النابض.",
+                    posts: [],
+                    phone: "+249920025392",
+                    address: "الخرطوم، السودان"
+                };
+            }
+
             renderDynamicData();
             startModernAutoSlide();
         }
@@ -404,17 +436,19 @@
                 slider.innerHTML = `<div class="p-8 text-center text-slate-400">لا توجد صور مضافة حالياً في المعرض.</div>`;
             }
 
-            // عرض مشاريع الولايات المتعددة ديناميكياً
+            // عرض المشاريع من قاعدة البيانات Firebase
             const postsContainer = document.getElementById('dynamic-posts-container');
             postsContainer.innerHTML = '';
             if (siteData.posts && siteData.posts.length > 0) {
                 siteData.posts.forEach(p => {
                     let pTitle = currentLang === 'ar' ? (p.title || "") : (p.titleEn || p.title || "");
-                    let pDesc = currentLang === 'ar' ? (p.desc || "") : (p.descEn || p.desc || "");
+                    let pDesc = currentLang === 'ar' ? (p.content || p.desc || "") : (p.contentEn || p.descEn || p.desc || "");
+                    let pImg = p.img || "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=600";
+                    
                     postsContainer.innerHTML += `
                         <div class="glass rounded-3xl overflow-hidden card-hover border border-amber-500/20">
                             <div class="relative">
-                                <img src="${p.img || 'https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=600'}" class="w-full h-48 object-cover" alt="صورة الولاية">
+                                <img src="${pImg}" class="w-full h-48 object-cover" alt="صورة المشروع">
                                 <span class="absolute top-3 right-3 bg-amber-500 text-slate-950 font-black px-3 py-1 rounded-xl text-xs shadow-lg">${pTitle}</span>
                             </div>
                             <div class="p-6">
@@ -424,11 +458,11 @@
                         </div>`;
                 });
             } else {
-                postsContainer.innerHTML = `<div class="col-span-3 text-center text-slate-400 py-8">لا توجد مشاريع مضافة حالياً في الولايات.</div>`;
+                postsContainer.innerHTML = `<div class="col-span-3 text-center text-slate-400 py-8">لا توجد مشاريع مضافة حالياً في قاعدة البيانات. اذهب إلى لوحة تحكم Firebase وأضف مجموعة باسم posts.</div>`;
             }
         }
 
-        function updateSlideClasses() {
+        window.updateSlideClasses = function() {
             const slides = document.querySelectorAll('.carousel-slide');
             const indicatorButtons = document.querySelectorAll('#slider-indicators button');
 
@@ -449,21 +483,21 @@
             });
         }
 
-        function nextSlide() {
+        window.nextSlide = function() {
             if (slidesCount === 0) return;
             currentSlide = (currentSlide + 1) % slidesCount;
             updateSlideClasses();
             resetAutoSlide();
         }
 
-        function prevSlide() {
+        window.prevSlide = function() {
             if (slidesCount === 0) return;
             currentSlide = (currentSlide - 1 + slidesCount) % slidesCount;
             updateSlideClasses();
             resetAutoSlide();
         }
 
-        function goToSlide(index) {
+        window.goToSlide = function(index) {
             if (slidesCount === 0) return;
             currentSlide = index;
             updateSlideClasses();
@@ -485,7 +519,7 @@
             startModernAutoSlide();
         }
 
-        function performSearch() {
+        window.performSearch = function() {
             const keyword = document.getElementById('search-input').value.trim().toLowerCase();
             if(!keyword) return;
 
@@ -493,9 +527,7 @@
 
             if (
                 (siteData.articleTitle && siteData.articleTitle.toLowerCase().includes(keyword)) || 
-                (siteData.articleContent && siteData.articleContent.toLowerCase().includes(keyword)) ||
-                (siteData.articleTitleEn && siteData.articleTitleEn.toLowerCase().includes(keyword)) ||
-                (siteData.articleContentEn && siteData.articleContentEn.toLowerCase().includes(keyword))
+                (siteData.articleContent && siteData.articleContent.toLowerCase().includes(keyword))
             ) {
                 matchedSection = 'gallery';
             }
@@ -504,9 +536,8 @@
                 for (let post of siteData.posts) {
                     if (
                         (post.title && post.title.toLowerCase().includes(keyword)) ||
-                        (post.desc && post.desc.toLowerCase().includes(keyword)) ||
-                        (post.titleEn && post.titleEn.toLowerCase().includes(keyword)) ||
-                        (post.descEn && post.descEn.toLowerCase().includes(keyword))
+                        (post.content && post.content.toLowerCase().includes(keyword)) ||
+                        (post.desc && post.desc.toLowerCase().includes(keyword))
                     ) {
                         matchedSection = 'portfolio';
                         break;
@@ -537,13 +568,6 @@
                 alert("عذراً، لم يتم العثور على نتائج مطابقة لـ: \"" + keyword + "\". يمكنك التواصل معنا مباشرة عبر واتساب للاستفسار.");
             }
         }
-
-        // الاستماع لتحديثات التخزين المحلي فورياً لتظهر في أي متصفح (Brave / Chrome) عند الحفظ
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'abbasi_cms') {
-                loadSiteData();
-            }
-        });
 
         window.onload = loadSiteData;
     </script>
