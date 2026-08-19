@@ -177,7 +177,7 @@
         </div>
     </section>
 
-    <!-- قسم مشاريعنا في الولايات (يدعم عدة مشاريع وصور وعناوين) -->
+    <!-- قسم مشاريعنا في الولايات -->
     <section id="portfolio" class="py-24 px-6 bg-slate-950/60 border-y border-slate-800/80">
         <div class="container mx-auto">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -333,36 +333,18 @@
         }
 
         function loadSiteData() {
+            // تم إزالة القيم والولايات الافتراضية نهائياً لتعتمد اللوحة على ما تدخله أنت فقط
             siteData = JSON.parse(localStorage.getItem('abbasi_cms')) || {
                 galleryTitle: "معرض الصور الذكي",
                 galleryTitleEn: "Smart Photo Gallery",
                 galleryDesc: "لقطات حية لأحدث تقنيات ومنظومات الطاقة الشمسية المركبة.",
                 galleryDescEn: "Live shots of the latest installed solar systems.",
-                galleryImages: [
-                    "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=1200",
-                    "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=1200",
-                    "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?q=80&w=1200"
-                ],
+                galleryImages: [],
                 articleTitle: "أهمية اختيار الإنفرتر المناسب للأحمال المنزلية والزراعية",
                 articleTitleEn: "The Importance of Choosing the Right Inverter",
-                articleContent: "يعتبر الإنفرتر (العاكس) بمثابة قلب منظومة الطاقة الشمسية النابض. اختيار الإنفرتر ذو الموجة النقية (Pure Sine Wave) يحمي أجهزتك الحساسة مثل الثلاجات والمكيفات ويطيل من عمرها الافتراضي.",
-                articleContentEn: "The inverter is the beating heart of the solar system. Choosing a Pure Sine Wave inverter protects your sensitive appliances.",
-                posts: [
-                    { 
-                        title: "ولاية الخرطوم", 
-                        titleEn: "Khartoum State", 
-                        desc: "تركيب منظومة طاقة شمسية هجينة متكاملة للمنازل.", 
-                        descEn: "Installation of an integrated hybrid solar power system for homes.", 
-                        img: "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=600" 
-                    },
-                    { 
-                        title: "ولاية الجزيرة", 
-                        titleEn: "Al Jazirah State", 
-                        desc: "تشغيل مضخات الآبار الجوفية الزراعية بالطاقة الشمسية المباشرة.", 
-                        descEn: "Operation of agricultural deep well pumps with direct solar energy.", 
-                        img: "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=600" 
-                    }
-                ],
+                articleContent: "يعتبر الإنفرتر (العاكس) بمثابة قلب منظومة الطاقة الشمسية النابض...",
+                articleContentEn: "The inverter is the beating heart of the solar system...",
+                posts: [], // فارغة تماماً بدون أي ولايات افتراضية مسبقة
                 phone: "+249920025392",
                 address: "الخرطوم، السودان"
             };
@@ -404,7 +386,7 @@
                 slider.innerHTML = `<div class="p-8 text-center text-slate-400">لا توجد صور مضافة حالياً في المعرض.</div>`;
             }
 
-            // عرض مشاريع الولايات المتعددة ديناميكياً
+            // عرض مشاريع الولايات المتعددة ديناميكياً (تظهر فقط إذا قمت بإضافتها من لوحة التحكم)
             const postsContainer = document.getElementById('dynamic-posts-container');
             postsContainer.innerHTML = '';
             if (siteData.posts && siteData.posts.length > 0) {
@@ -423,6 +405,8 @@
                             </div>
                         </div>`;
                 });
+            } else {
+                postsContainer.innerHTML = `<div class="col-span-3 text-center text-slate-400 py-8">لا توجد مشاريع مضافة حالياً في الولايات.</div>`;
             }
         }
 
@@ -489,7 +473,6 @@
 
             let matchedSection = null;
 
-            // 1. البحث الديناميكي المباشر في محتوى المقال التقني المحدث
             if (
                 (siteData.articleTitle && siteData.articleTitle.toLowerCase().includes(keyword)) || 
                 (siteData.articleContent && siteData.articleContent.toLowerCase().includes(keyword)) ||
@@ -499,7 +482,6 @@
                 matchedSection = 'gallery';
             }
 
-            // 2. البحث الديناميكي في مشاريع الولايات المضافة عبر لوحة الإدارة
             if (!matchedSection && siteData.posts && siteData.posts.length > 0) {
                 for (let post of siteData.posts) {
                     if (
@@ -514,7 +496,6 @@
                 }
             }
 
-            // 3. البحث العام في أقسام الموقع الأساسية في حال لم تكن الكلمة داخل مقال مخصص
             if (!matchedSection) {
                 const searchableItems = [
                     { terms: ['لوح', 'ألواح', 'طاقة', 'شمسية', 'شمس', 'solar', 'panel'], target: 'hero' },
@@ -532,7 +513,6 @@
                 }
             }
 
-            // الانتقال السلس للقسم المطابق أو إظهار تنبيه
             if (matchedSection) {
                 document.getElementById(matchedSection).scrollIntoView({ behavior: 'smooth' });
             } else {
@@ -540,9 +520,12 @@
             }
         }
 
-        setInterval(() => {
-            loadSiteData();
-        }, 30000);
+        // الاستماع لتحديثات التخزين المحلي فورياً لتظهر في أي متصفح (Brave / Chrome) عند الحفظ
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'abbasi_cms') {
+                loadSiteData();
+            }
+        });
 
         window.onload = loadSiteData;
     </script>
