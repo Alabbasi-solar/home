@@ -18,11 +18,10 @@
         <div class="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-3xl mx-auto">🔒</div>
         <div>
             <h1 class="text-2xl font-black text-amber-400 mb-2">لوحة تحكم شركة العباسي</h1>
-            <p class="text-slate-400 text-sm">أدخل كلمة السر للدخول (abbasi2026)</p>
+            <p class="text-slate-400 text-sm">أدخل كلمة السر للمتابعة</p>
         </div>
         <div class="space-y-4">
-            <!-- تم إخفاء كلمة السر هنا لتظهر على شكل نقاط -->
-            <input id="password-input" type="password" placeholder="كلمة السر..." class="w-full bg-slate-900/90 border border-slate-700 p-3.5 rounded-xl focus:border-amber-500 outline-none text-center text-lg tracking-widest" onkeyup="if(event.key === 'Enter') checkPassword()">
+            <input id="password-input" type="password" placeholder="كلمة السر..." class="w-full bg-slate-900/90 border border-slate-700 p-3.5 rounded-xl focus:border-amber-500 outline-none text-center text-lg tracking-widest text-white" onkeyup="if(event.key === 'Enter') checkPassword()">
             <button onclick="checkPassword()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg text-base">دخول</button>
             <p id="error-msg" class="text-red-400 text-xs hidden font-bold">كلمة السر غير صحيحة!</p>
         </div>
