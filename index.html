@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- اسم قصير ومؤثر لمحركات البحث -->
+    <title>العباسي للطاقة | طاقة شمسية السودان</title>
+    
+    <!-- وسوم الأرشفة والظهور في نتائج البحث -->
+    <meta name="description" content="شركة العباسي لخدمات الطاقة الشمسية في السودان. أفضل حلول الطاقة النظيفة، الألواح، الإنفرترات، والمضخات الزراعية.">
+    <meta name="keywords" content="طاقة شمسية السودان, العباسي للطاقة, ألواح شمسية, إنفرترات, مضخات زراعية الخرطوم">
+    <meta name="robots" content="index, follow">
+
+    <!-- مكتبة التصميم Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- خطوط جوجل العربية Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- مكتبة الأيقونات Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #0f172a; color: white; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.12); }
+        .orange-3d-bg { background: radial-gradient(circle at 50% 20%, #ff8c00, #d95300, #802b00, #090602); position: relative; overflow: hidden; }
+        
+        .glowing-grid { 
+            position: absolute; 
+            inset: -50%; 
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px); 
+            background-size: 50px 50px; 
+            transform: perspective(500px) rotateX(60deg) translateY(0); 
+            animation: gridMove 8s linear infinite; 
+        }
+        @keyframes gridMove { 
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); } 
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); } 
+        }
+
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-8px); border-color: rgba(245, 158, 11, 0.6); box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.2); }
+        .logo-blinking { animation: logoBlink 2s infinite ease-in-out; }
+        @keyframes logoBlink { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(245,158,11,0.5)); } 50% { transform: scale(1.08); filter: drop-shadow(0 0 15px rgba(245,158,11,1)); } }
+
+        @keyframes scrollRightToLeft {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        @keyframes scrollLeftToRight {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .marquee-rtl { display: flex; width: max-content; animation: scrollRightToLeft 25s linear infinite; }
+        .marquee-ltr { display: flex; width: max-content; animation: scrollLeftToRight 25s linear infinite; }
+
+        .carousel-slide {
+            opacity: 0;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(1.05);
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            z-index: 10;
+        }
+        .search-glow:focus { box-shadow: 0 0 15px rgba(245, 158, 11, 0.5); }
+    </style>
+</head>
+<body id="body-lang">
+
+    <!-- شريط البحث وزر اللغة العلوي -->
+    <div class="w-full bg-slate-950/95 border-b border-slate-800/80 py-2.5 px-4 fixed top-0 z-[100] flex justify-between items-center shadow-lg">
+        <div class="relative w-full max-w-xs md:max-w-md mx-2">
+            <input id="search-input" type="text" placeholder="ابحث عن ألواح، إنفرترات، مضخات، استشارات..." class="w-full bg-slate-900 border border-slate-700 p-2 pr-10 rounded-xl text-xs md:text-sm outline-none search-glow text-white" onkeyup="if(event.key === 'Enter') performSearch()">
+            <button onclick="performSearch()" class="absolute left-3 top-2 text-amber-500 text-sm"><i class="fa-solid fa-search"></i></button>
+        </div>
+
+        <button onclick="toggleLanguage()" id="lang-btn" class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-4 py-1.5 rounded-xl font-black text-xs md:text-sm transition shadow-md flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-globe"></i> English / العربية
+        </button>
+    </div>
+
+    <!-- شريط التنقل العلوي (Header) -->
+    <header class="fixed w-full z-50 px-4 pt-16 pb-2">
+        <div class="glass rounded-2xl container mx-auto px-6 py-3 flex justify-between items-center shadow-2xl">
+            <span id="company-name" class="font-black text-sm md:text-base tracking-wide" data-ar="شركة العباسي للأنشطة المتعددة المحدودة" data-en="Al-Abbasi Multiple Activities Co. Ltd">شركة العباسي للأنشطة المتعددة المحدودة</span>
+            
+            <a href="#hero" class="bg-white p-2 rounded-xl logo-blinking">
+                <img src="images/logoo.jpg" class="h-10 w-auto object-contain" alt="شعار الشركة">
+            </a>
+
+            <nav class="hidden md:flex gap-6 font-bold text-sm">
+                <a href="#hero" class="hover:text-amber-400 transition" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="#gallery" class="hover:text-amber-400 transition" data-ar="المعرض والمقالات" data-en="Gallery & Articles">المعرض والمقالات</a>
+                <a href="#portfolio" class="hover:text-amber-400 transition" data-ar="مشاريعنا" data-en="Projects">مشاريعنا</a>
+                <a href="#location" class="hover:text-amber-400 transition" data-ar="موقعنا" data-en="Location">موقعنا</a>
+                <a href="#consult" class="hover:text-amber-400 transition" data-ar="استشارة المنظومات" data-en="Consultation">استشارة المنظومات</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- قسم الهيرو العلوي -->
+    <section id="hero" class="orange-3d-bg min-h-[92vh] flex flex-col items-center justify-center text-center px-6 pt-52 pb-20 relative overflow-hidden">
+        <div class="glowing-grid"></div>
+        
+        <div class="max-w-4xl space-y-6 z-10 relative my-auto">
+            <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-black tracking-wider inline-block uppercase" data-ar="🌟 مستقبل الطاقة النظيفة في السودان" data-en="🌟 The Future of Clean Energy in Sudan">
+                🌟 مستقبل الطاقة النظيفة في السودان
+            </span>
+            <h1 id="main-title" class="text-4xl md:text-6xl font-black leading-tight drop-shadow-md" data-ar="العباسي لخدمات الطاقة الشمسية" data-en="Al-Abbasi Solar Energy Services">
+                العباسي لخدمات الطاقة الشمسية
+            </h1>
+            <p id="main-desc" class="text-slate-200 text-lg md:text-xl max-w-2xl mx-auto font-medium" data-ar="حلول طاقة نظيفة، مستدامة وموثوقة لمنزلك، مزارعك ومنشآتك التجارية بأعلى معايير الكفاءة الهندسية." data-en="Clean, sustainable and reliable energy solutions for your home, farms and commercial facilities with the highest engineering standards.">
+                حلول طاقة نظيفة، مستدامة وموثوقة لمنزلك، مزارعك ومنشآتك التجارية بأعلى معايير الكفاءة الهندسية.
+            </p>
+        </div>
+
+        <div class="w-full overflow-hidden space-y-4 z-10 pt-10">
+            <div class="flex overflow-hidden whitespace-nowrap py-1">
+                <div class="marquee-rtl flex gap-6 items-center">
+                    <span class="glass px-6 py-2.5 rounded-2xl text-amber-300 text-sm font-bold border border-amber-500/30 shadow-lg flex items-center gap-2"><i class="fa-solid fa-solar-panel text-amber-400"></i> <span data-ar="ألواح شمسية عالية الكفاءة" data-en="High Efficiency Solar Panels">ألواح شمسية عالية الكفاءة</span></span>
+                    <span class="glass px-6 py-2.5 rounded-2xl text-amber-300 text-sm font-bold border border-amber-500/30 shadow-lg flex items-center gap-2"><i class="fa-solid fa-bolt text-amber-400"></i> <span data-ar="إنفرترات ومحولات طاقة" data-en="Inverters & Power Converters">إنفرترات ومحولات طاقة</span></span>
+                    <span class="glass px-6 py-2.5 rounded-2xl text-amber-300 text-sm font-bold border border-amber-500/30 shadow-lg flex items-center gap-2"><i class="fa-solid fa-car-battery text-amber-400"></i> <span data-ar="بطاريات تخزين عميقة" data-en="Deep Cycle Batteries">بطاريات تخزين عميقة</span></span>
+                    <span class="glass px-6 py-2.5 rounded-2xl text-amber-300 text-sm font-bold border border-amber-500/30 shadow-lg flex items-center gap-2"><i class="fa-solid fa-water text-amber-400"></i> <span data-ar="مضخات مياه زراعية" data-en="Agricultural Water Pumps">مضخات مياه زراعية</span></span>
+                    <span class="glass px-6 py-2.5 rounded-2xl text-amber-300 text-sm font-bold border border-amber-500/30 shadow-lg flex items-center gap-2"><i class="fa-solid fa-microchip text-amber-400"></i> <span data-ar="منظومات شحن ذكية MPPT" data-en="Smart MPPT Charge Controllers">منظومات شحن ذكية MPPT</span></span>
+                </div>
+            </div>
+
+            <div class="flex overflow-hidden whitespace-nowrap py-1">
+                <div class="marquee-ltr flex gap-6 items-center">
+                    <span class="glass px-6 py-2.5 rounded-2xl text-emerald-300 text-sm font-bold border border-emerald-500/30 shadow-lg flex items-center gap-2"><i class="fa-solid fa-shield-halved text-emerald-400"></i> <span data-ar="ضمان حقيقي وصيانة دورية" data-en="Real Warranty & Periodic Maintenance">ضمان حقيقي وصيانة دورية</span></span>
+                    <span class="glass px-6 py-2.5 rounded-2xl text-emerald-300 text-sm font-bold border border-emerald-500/30 shadow-lg flex items-center gap-2"><i class="fa-solid fa-lightbulb text-emerald-400"></i> <span data-ar="إضاءة مستمرة 24 ساعة" data-en="Continuous 24/7 Lighting">إضاءة مستمرة 24 ساعة</span></span>
+                    <span class="glass px-6 py-2.5 rounded-2xl text-emerald-300 text-sm font-bold border border-emerald-500/30 shadow-lg flex items-center gap-2"><i class="fa-solid fa-industry text-emerald-400"></i> <span data-ar="حلول طاقة للمصانع والشركات" data-en="Power Solutions for Factories & Companies">حلول طاقة للمصانع والشركات</span></span>
+                    <span class="glass px-6 py-2.5 rounded-2xl text-emerald-300 text-sm font-bold border border-emerald-500/30 shadow-lg flex items-center gap-2"><i class="fa-solid fa-calculator text-emerald-400"></i> <span data-ar="دراسات جدوى واختيار أحمال" data-en="Feasibility Studies & Load Selection">دراسات جدوى واختيار أحمال</span></span>
+                    <span class="glass px-6 py-2.5 rounded-2xl text-emerald-300 text-sm font-bold border border-emerald-500/30 shadow-lg flex items-center gap-2"><i class="fa-solid fa-screwdriver-wrench text-emerald-400"></i> <span data-ar="تركيب هندسي متكامل" data-en="Integrated Engineering Installation">تركيب هندسي متكامل</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المعرض المتحرك + المقال -->
+    <section id="gallery" class="py-24 px-6 container mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-12 glass p-8 rounded-3xl border border-amber-500/30 shadow-xl">
+            <h2 id="gallery-box-title" class="text-3xl md:text-4xl font-black text-amber-400 mb-4">معرض الصور</h2>
+            <p id="gallery-box-desc" class="text-slate-300 text-base leading-relaxed">لقطات حية لأحدث تقنيات ومنظومات الطاقة الشمسية المركبة.</p>
+        </div>
+
+        <div class="relative rounded-3xl border border-amber-500/30 glass max-w-4xl mx-auto overflow-hidden shadow-2xl mb-16 bg-slate-900 group">
+            <div id="dynamic-slider-container" class="relative min-h-[350px] md:min-h-[450px] flex items-center justify-center w-full bg-slate-950 overflow-hidden"></div>
+            
+            <button onclick="prevSlide()" class="absolute top-1/2 right-4 -translate-y-1/2 bg-slate-950/70 hover:bg-amber-500 hover:text-slate-950 text-white w-12 h-12 rounded-full transition-all duration-300 font-bold z-30 shadow-xl backdrop-blur-md border border-white/10 flex items-center justify-center opacity-80 group-hover:opacity-100">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <button onclick="nextSlide()" class="absolute top-1/2 left-4 -translate-y-1/2 bg-slate-950/70 hover:bg-amber-500 hover:text-slate-950 text-white w-12 h-12 rounded-full transition-all duration-300 font-bold z-30 shadow-xl backdrop-blur-md border border-white/10 flex items-center justify-center opacity-80 group-hover:opacity-100">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <div id="slider-indicators" class="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-slate-950/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto glass p-8 md:p-12 rounded-3xl border border-amber-500/30 shadow-2xl space-y-6">
+            <div class="border-b border-amber-500/20 pb-4">
+                <span class="text-amber-400 text-xs font-black uppercase tracking-widest block mb-1" data-ar="مقالات وتقنيات الطاقة الشمسية" data-en="Solar Energy Articles & Technologies">مقالات وتقنيات الطاقة الشمسية</span>
+                <h3 id="article-title" class="text-2xl md:text-3xl font-black text-white">عنوان المقال التقني سيظهر هنا</h3>
+            </div>
+            <div id="article-content" class="text-slate-300 text-base md:text-lg leading-loose space-y-4">
+                <p>محتوى المقال سيظهر هنا بالتفصيل...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم مشاريعنا في الولايات -->
+    <section id="portfolio" class="py-24 px-6 bg-slate-950/60 border-y border-slate-800/80">
+        <div class="container mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-4xl font-black text-amber-500 mb-3" data-ar="مشاريعنا في الولايات" data-en="Our Projects in States">مشاريعنا في الولايات</h2>
+                <p class="text-slate-400" data-ar="نظرة على إنجازاتنا ومنظوماتنا المركبة بمختلف ولايات السودان." data-en="A look at our achievements and installed systems across various states of Sudan.">نظرة على إنجازاتنا ومنظوماتنا المركبة بمختلف ولايات السودان.</p>
+            </div>
+            <div id="dynamic-posts-container" class="grid md:grid-cols-3 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- قسم الاستشارة الهندسية للمنظومات الشمسية -->
+    <section id="consult" class="py-24 px-6 container mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-black tracking-wider inline-block uppercase mb-3" data-ar="⚡ هندسة الطاقات المتجددة" data-en="⚡ Renewable Energy Engineering">
+                ⚡ هندسة الطاقات المتجددة
+            </span>
+            <h2 class="text-4xl font-black text-amber-400 mb-4" data-ar="استشارة مجانية لتصميم المنظومات الشمسية" data-en="Free Consultation for Solar Systems Design">استشارة مجانية لتصميم المنظومات الشمسية</h2>
+            <p class="text-slate-300 text-base leading-relaxed" data-ar="هل تحتاج إلى منظومة طاقة لمنزلك، مزرعتك، أو بئرك الجوفية؟ حدد متطلباتك ودع مهندسينا يصممون لك النظام الأمثل بأعلى كفاءة وأفضل سعر." data-en="Do you need a power system for your home, farm, or borehole? Define your requirements and let our engineers design the optimal system.">
+                هل تحتاج إلى منظومة طاقة لمنزلك، مزرعتك، أو بئرك الجوفية؟ حدد متطلباتك ودع مهندسينا يصممون لك النظام الأمثل بأعلى كفاءة وأفضل سعر.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
+            <div class="glass p-6 rounded-3xl card-hover border border-amber-500/30 flex flex-col justify-between">
+                <div>
+                    <div class="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-3xl mb-4 mx-auto">
+                        <i class="fa-solid fa-house-chimney"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-300 text-center mb-2" data-ar="منظومات المنازل السكنية" data-en="Residential Solar Systems">منظومات المنازل السكنية</h3>
+                    <p class="text-slate-400 text-sm text-center mb-6 leading-relaxed" data-ar="تصميم وتركيب منظومات متكاملة لتشغيل الأجهزة المنزلية، التكييف، والإنارة على مدار 24 ساعة." data-en="Design and installation of integrated systems to run home appliances, AC, and lighting 24/7.">تصميم وتركيب منظومات متكاملة لتشغيل الأجهزة المنزلية، التكييف، والإنارة على مدار 24 ساعة.</p>
+                </div>
+                <a href="https://wa.me/249920025392?text=أرغب في الاستفسار عن منظومة طاقة شمسية منزلية" target="_blank" class="block w-full bg-amber-500 hover:bg-amber-400 text-center text-slate-950 font-black py-3 rounded-xl transition shadow-lg text-sm" data-ar="استشر مهندس المنظومات" data-en="Consult System Engineer">
+                    <i class="fa-brands fa-whatsapp ml-1"></i> استشر مهندس المنظومات
+                </a>
+            </div>
+
+            <div class="glass p-6 rounded-3xl card-hover border border-amber-500/30 flex flex-col justify-between">
+                <div>
+                    <div class="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-3xl mb-4 mx-auto">
+                        <i class="fa-solid fa-water"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-300 text-center mb-2" data-ar="مضخات المياه الزراعية" data-en="Agricultural Water Pumps">مضخات المياه الزراعية</h3>
+                    <p class="text-slate-400 text-sm text-center mb-6 leading-relaxed" data-ar="تشغيل الآبار والبيارات بالطاقة الشمسية المباشرة لزيادة الإنتاج الزراعي بأقل تكلفة تشغيلية." data-en="Running wells and pumps with direct solar energy to maximize agricultural yield with minimal operating cost.">تشغيل الآبار والبيارات بالطاقة الشمسية المباشرة لزيادة الإنتاج الزراعي بأقل تكلفة تشغيلية.</p>
+                </div>
+                <a href="https://wa.me/249920025392?text=أرغب في الاستفسار عن منظومة ضخ مياه زراعية" target="_blank" class="block w-full bg-amber-500 hover:bg-amber-400 text-center text-slate-950 font-black py-3 rounded-xl transition shadow-lg text-sm" data-ar="استشر مهندس المنظومات" data-en="Consult System Engineer">
+                    <i class="fa-brands fa-whatsapp ml-1"></i> استشر مهندس المنظومات
+                </a>
+            </div>
+
+            <div class="glass p-6 rounded-3xl card-hover border border-amber-500/30 flex flex-col justify-between">
+                <div>
+                    <div class="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-3xl mb-4 mx-auto">
+                        <i class="fa-solid fa-solar-panel"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-300 text-center mb-2" data-ar="صيانة وفحص المنظومات" data-en="Systems Maintenance & Inspection">صيانة وفحص المنظومات</h3>
+                    <p class="text-slate-400 text-sm text-center mb-6 leading-relaxed" data-ar="خدمات الفحص الشامل، تنظيف الألواح، وتحديث وإنعاش البطاريات والإنفرترات القديمة." data-en="Comprehensive inspection, panel cleaning, and updating old batteries and inverters.">خدمات الفحص الشامل، تنظيف الألواح، وتحديث وإنعاش البطاريات والإنفرترات القديمة.</p>
+                </div>
+                <a href="https://wa.me/249920025392?text=أرغب في طلب صيانة أو فحص لمنظومتي الشمسية" target="_blank" class="block w-full bg-amber-500 hover:bg-amber-400 text-center text-slate-950 font-black py-3 rounded-xl transition shadow-lg text-sm" data-ar="طلب صيانة وفحص" data-en="Request Maintenance">
+                    <i class="fa-brands fa-whatsapp ml-1"></i> طلب صيانة وفحص
+                </a>
+            </div>
+        </div>
+
+        <div class="max-w-3xl mx-auto glass p-8 md:p-10 rounded-3xl text-center border border-green-500/40 shadow-2xl">
+            <h3 class="text-2xl font-black text-white mb-3" data-ar="احصل على عرض سعر فوري لمنظومتك" data-en="Get an Instant Quote for Your System">احصل على عرض سعر فوري لمنظومتك</h3>
+            <p class="text-slate-300 text-sm md:text-base mb-6" data-ar="أرسل أحمالك عبر الواتساب وسنقوم بحساب المنظومة المناسبة وتقديم عرض سعر دقيق." data-en="Send your loads via WhatsApp and we will calculate the right system and provide an accurate quote.">أرسل أحمالك عبر الواتساب وسنقوم بحساب المنظومة المناسبة وتقديم عرض سعر دقيق.</p>
+            <a href="https://wa.me/249920025392?text=السلام عليكم، أرغب في الحصول على عرض سعر لمنظومة شمسية" target="_blank" class="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white px-8 py-4 rounded-2xl font-black transition shadow-xl text-base">
+                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                <span data-ar="تواصل عبر واتساب الآن" data-en="Contact via WhatsApp Now">تواصل عبر واتساب الآن</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- موقعنا الجغرافي -->
+    <section id="location" class="py-24 px-6 container mx-auto">
+        <div class="container mx-auto max-w-4xl">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-4xl font-black text-amber-500 mb-3" data-ar="موقعنا الجغرافي" data-en="Our Location">موقعنا الجغرافي</h2>
+                <p class="text-slate-400" data-ar="يسعدنا استقبالكم وزيارتكم في مقر الشركة لتقديم الاستشارات الهندسية المباشرة" data-en="We are glad to welcome you at our company headquarters for direct engineering consultations">يسعدنا استقبالكم وزيارتكم في مقر الشركة لتقديم الاستشارات الهندسية المباشرة</p>
+            </div>
+            
+            <div class="glass p-8 md:p-12 rounded-3xl shadow-2xl border border-amber-500/30 text-center space-y-8">
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-3xl">📍</div>
+                        <div class="text-right">
+                            <h4 class="font-bold text-white text-lg" data-ar="العنوان الرئيسي" data-en="Main Address">العنوان الرئيسي</h4>
+                            <p id="display-address" class="text-slate-300 text-sm" data-ar="الخرطوم، السودان" data-en="Khartoum, Sudan">الخرطوم، السودان</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-3xl">📞</div>
+                        <div class="text-right">
+                            <h4 class="font-bold text-white text-lg" data-ar="رقم الهاتف" data-en="Phone Number">رقم الهاتف</h4>
+                            <p id="display-phone" class="text-slate-300 text-sm dir-ltr font-semibold">+249920025392</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <a href="https://maps.app.goo.gl/1oXhumZmeGE3aE1v6?g_st=ac" target="_blank" class="inline-flex items-center justify-center gap-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 px-10 rounded-2xl transition shadow-xl text-base tracking-wide">
+                        <i class="fa-solid fa-map-location-dot text-xl"></i> <span data-ar="فتح الخريطة التفاعلية" data-en="Open Interactive Map">فتح الخريطة التفاعلية</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- التذييل (Footer) -->
+    <footer class="bg-black/95 text-slate-400 py-16 text-center border-t border-slate-800">
+        <div class="container mx-auto px-6 space-y-8">
+            <div class="flex justify-center items-center gap-6 flex-wrap">
+                <a href="https://wa.me/249920025392" target="_blank" class="glass px-6 py-3 rounded-2xl flex items-center gap-3 text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/30 transition shadow-lg font-bold text-sm">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i> <span data-ar="مراسلة واتساب" data-en="WhatsApp Chat">مراسلة واتساب</span>
+                </a>
+                <a href="tel:+249920025392" class="glass px-6 py-3 rounded-2xl flex items-center gap-3 text-blue-400 hover:bg-blue-500/10 border border-blue-500/30 transition shadow-lg font-bold text-sm">
+                    <i class="fa-solid fa-phone text-xl"></i> <span data-ar="اتصال مباشر" data-en="Direct Call">اتصال مباشر</span>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61582403915932" target="_blank" class="glass px-6 py-3 rounded-2xl flex items-center gap-3 text-sky-400 hover:bg-sky-500/10 border border-sky-500/30 transition shadow-lg font-bold text-sm">
+                    <i class="fa-brands fa-facebook text-2xl"></i> <span data-ar="صفحة الفيسبوك" data-en="Facebook Page">صفحة الفيسبوك</span>
+                </a>
+            </div>
+
+            <div class="space-y-2 border-t border-slate-800/80 pt-8 max-w-xl mx-auto">
+                <p class="text-sm" data-ar="© 2026 جميع الحقوق محفوظة - شركة العباسي لخدمات الطاقة الشمسية" data-en="© 2026 All Rights Reserved - Al-Abbasi Solar Energy Services">© 2026 جميع الحقوق محفوظة - شركة العباسي لخدمات الطاقة الشمسية</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- السكريبت البرمجي -->
+    <script>
+        if (top !== self) top.location = self.location;
+
+        let currentSlide = 0;
+        let slidesCount = 0;
+        let currentLang = 'ar';
+        let siteData = {};
+        let slideInterval;
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const root = document.getElementById('html-root');
+            root.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            root.setAttribute('lang', currentLang);
+            
+            document.getElementById('lang-btn').innerText = currentLang === 'ar' ? 'English 🌐' : 'العربية 🌐';
+
+            document.querySelectorAll('[data-ar]').forEach(el => {
+                const text = el.getAttribute(`data-${currentLang}`);
+                if (text) el.innerText = text;
+            });
+            renderDynamicData();
+        }
+
+        function loadSiteData() {
+            siteData = {
+                galleryTitle: "معرض الصور الذكي",
+                galleryTitleEn: "Smart Photo Gallery",
+                galleryDesc: "لقطات حية لأحدث تقنيات ومنظومات الطاقة الشمسية المركبة.",
+                galleryDescEn: "Live shots of the latest installed solar systems.",
+                
+                // صور المعرض الخاصة بك
+                galleryImages: [
+                    "images/ssss.jpg",
+                    "images/yy.png",
+                    "images/oo.jpg"
+                ],
+                
+                articleTitle: "ألواح LONGi للطاقة الشمسية - لماذا هي الخيار الأول عالمياً؟",
+                articleTitleEn: "LONGi Solar Panels - Why are they the global first choice?",
+                articleContent: `في عالم الطاقة الشمسية اسم LONGi بقى مرادف للجودة والكفاءة. الشركة الصينية دي هي أكبر مصنع ألواح شمسية في العالم، ومنتجاتها منتشرة في السودان والشرق الأوسط كله.\n\n1. من هي شركة LONGi؟\nتأسست LONGi سنة 2000 وهي متخصصة 100% في الطاقة الشمسية. بتصنع أكثر من 30% من ألواح السيليكون في العالم. شعارها: "أكثر كفاءة، وأكثر قوة، وأكثر موثوقية". عشان كده تلقاها في أكبر محطات الطاقة حول العالم.\n\n2. ما الذي يميز ألواح LONGi؟ (سلسلة Hi-MO)\nLONGi مشهورة بسلسلة Hi-MO. دي أهم المميزات:\n• كفاءة عالية جداً: ألواح Hi-MO 6 و Hi-MO 7 بتصل كفاءتها لـ 22.8%. يعني بتديك طاقة أكبر في نفس المساحة.\n• تقنية HPBC: دي أحدث تقنية من LONGi بتقلل الفقد وبتزيد امتصاص الضوء حتى في الأيام الغائمة والغبار. مناسبة جداً لأجواء السودان.\n• مقاومة للظروف القاسية والرياح والرطوبة بضمان ضد التآكل.\n\n3. لماذا نرشح LONGi للسودان؟\n• تتحمل الغبار والحرارة العالية بكفاءة ممتازة.\n• عائد استثمار سريع بفضل الكفاءة العالية.\n• متوفرة وقطع غيارها مضمونة وصيانتها سهلة في السوق السوداني.\n\nالخلاصة:\nلو بتفتش على ألواح تعيش معاك 25 سنة وتديك أعلى إنتاج بأقل مساحة، فـ ألواح LONGi هي الخيار الأول لاستقرار بيتك ومزارعك.`,
+                articleContentEn: "LONGi is a global leader in solar technology, providing high efficiency, durability, and top-tier performance for residential and commercial needs in Sudan and worldwide.",
+                
+                // صورة مشروع شرق النيل الخاصة بك
+                posts: [
+                    { 
+                        title: "ولاية الخرطوم - شرق النيل (حي النصر)", 
+                        titleEn: "Khartoum State - East Nile", 
+                        desc: "تم بحمد الله تركيب منظومة طاقة شمسية جديدة بمواصفات قوية:\n• إنفرتر 5 كيلو\n• بطارية ليثيوم 5 كيلو\n• 8 ألواح شمسية قدرة 645 واط\n• إجمالي القدرة: 5.16 كيلوواط\nتركيب احترافي وضبط كامل للمنظومة لضمان طاقة مستمرة وأمان تام.", 
+                        descEn: "Successful installation of an integrated solar power system including 5kW inverter, 5kW lithium battery, and high-capacity solar panels in East Nile.", 
+                        img: "images/sharg.jpg" 
+                    }
+                ],
+                phone: "+249920025392",
+                address: "الخرطوم، السودان"
+            };
+            
+            renderDynamicData();
+            startModernAutoSlide();
+        }
+
+        function renderDynamicData() {
+            document.getElementById('gallery-box-title').innerText = currentLang === 'ar' ? (siteData.galleryTitle || "") : (siteData.galleryTitleEn || siteData.galleryTitle || "");
+            document.getElementById('gallery-box-desc').innerText = currentLang === 'ar' ? (siteData.galleryDesc || "") : (siteData.galleryDescEn || siteData.galleryDesc || "");
+            document.getElementById('article-title').innerText = currentLang === 'ar' ? (siteData.articleTitle || "") : (siteData.articleTitleEn || siteData.articleTitle || "");
+            
+            const artContent = currentLang === 'ar' ? (siteData.articleContent || "") : (siteData.articleContentEn || siteData.articleContent || "");
+            document.getElementById('article-content').innerHTML = artContent.split('\n\n').map(p => `<p class="mb-4">${p.replace(/\n/g, '<br>')}</p>`).join('');
+
+            if(siteData.phone) document.getElementById('display-phone').innerText = siteData.phone;
+            if(siteData.address) document.getElementById('display-address').innerText = siteData.address;
+
+            const slider = document.getElementById('dynamic-slider-container');
+            const indicators = document.getElementById('slider-indicators');
+            slider.innerHTML = '';
+            indicators.innerHTML = '';
+            
+            if (siteData.galleryImages && siteData.galleryImages.length > 0) {
+                slidesCount = siteData.galleryImages.length;
+                if (currentSlide >= slidesCount) currentSlide = 0;
+
+                siteData.galleryImages.forEach((url, i) => {
+                    slider.innerHTML += `
+                        <div class="carousel-slide ${i === currentSlide ? 'active' : ''}">
+                            <img src="${url}" class="w-full h-[350px] md:h-[450px] object-cover" alt="صورة المعرض">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60"></div>
+                        </div>`;
+
+                    indicators.innerHTML += `
+                        <button onclick="goToSlide(${i})" class="h-2 rounded-full transition-all duration-500 ${i === currentSlide ? 'w-8 bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.8)]' : 'w-2 bg-white/40 hover:bg-white/70'}"></button>`;
+                });
+            } else {
+                slider.innerHTML = `<div class="p-8 text-center text-slate-400">لا توجد صور مضافة حالياً في المعرض.</div>`;
+            }
+
+            const postsContainer = document.getElementById('dynamic-posts-container');
+            postsContainer.innerHTML = '';
+            if (siteData.posts && siteData.posts.length > 0) {
+                siteData.posts.forEach(p => {
+                    let pTitle = currentLang === 'ar' ? (p.title || "") : (p.titleEn || p.title || "");
+                    let pDesc = currentLang === 'ar' ? (p.desc || "") : (p.descEn || p.desc || "");
+                    postsContainer.innerHTML += `
+                        <div class="glass rounded-3xl overflow-hidden card-hover border border-amber-500/25 shadow-xl">
+                            <div class="relative">
+                                <img src="${p.img || ''}" class="w-full h-52 object-cover" alt="صورة المشروع">
+                                <span class="absolute top-3 right-3 bg-amber-500 text-slate-950 font-black px-3 py-1 rounded-xl text-xs shadow-lg">${pTitle}</span>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-amber-400 mb-3">${pTitle}</h3>
+                                <p class="text-slate-300 text-sm leading-relaxed whitespace-pre-line">${pDesc}</p>
+                            </div>
+                        </div>`;
+                });
+            }
+        }
+
+        function updateSlideClasses() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicatorButtons = document.querySelectorAll('#slider-indicators button');
+
+            slides.forEach((slide, i) => {
+                if (i === currentSlide) slide.classList.add('active');
+                else slide.classList.remove('active');
+            });
+
+            indicatorButtons.forEach((btn, i) => {
+                if (i === currentSlide) {
+                    btn.className = "h-2 rounded-full transition-all duration-500 w-8 bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.8)]";
+                } else {
+                    btn.className = "h-2 rounded-full transition-all duration-500 w-2 bg-white/40 hover:bg-white/70";
+                }
+            });
+        }
+
+        function nextSlide() {
+            if (slidesCount === 0) return;
+            currentSlide = (currentSlide + 1) % slidesCount;
+            updateSlideClasses();
+            resetAutoSlide();
+        }
+
+        function prevSlide() {
+            if (slidesCount === 0) return;
+            currentSlide = (currentSlide - 1 + slidesCount) % slidesCount;
+            updateSlideClasses();
+            resetAutoSlide();
+        }
+
+        function goToSlide(index) {
+            if (slidesCount === 0) return;
+            currentSlide = index;
+            updateSlideClasses();
+            resetAutoSlide();
+        }
+
+        function startModernAutoSlide() {
+            if (slideInterval) clearInterval(slideInterval);
+            slideInterval = setInterval(() => {
+                if (slidesCount > 0) {
+                    currentSlide = (currentSlide + 1) % slidesCount;
+                    updateSlideClasses();
+                }
+            }, 4000);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(slideInterval);
+            startModernAutoSlide();
+        }
+
+        function performSearch() {
+            const keyword = document.getElementById('search-input').value.trim().toLowerCase();
+            if(!keyword) return;
+
+            const searchableItems = [
+                { terms: ['لوح', 'ألواح', 'طاقة', 'شمسية', 'شمس', 'longi'], target: 'hero' },
+                { terms: ['معرض', 'صور', 'مقال', 'انفرتر', 'عكس', 'موجة', 'تقني'], target: 'gallery' },
+                { terms: ['مشروع', 'مشاريع', 'سكنية', 'منظومة', 'ولاية', 'الولايات', 'الخرطوم', 'شرق النيل'], target: 'portfolio' },
+                { terms: ['استشارة', 'منزلي', 'مضخات', 'مياه', 'زراعية', 'سعر', 'عروض', 'صيانة', 'فحص'], target: 'consult' },
+                { terms: ['موقع', 'عنوان', 'هاتف', 'اتصال', 'السودان', 'خريطة'], target: 'location' }
+            ];
+
+            let foundMatch = false;
+            for (let item of searchableItems) {
+                if (item.terms.some(term => keyword.includes(term))) {
+                    document.getElementById(item.target).scrollIntoView({ behavior: 'smooth' });
+                    foundMatch = true;
+                    break;
+                }
+            }
+
+            if (!foundMatch) {
+                alert("عذراً، لم يتم العثور على نتائج مطابقة لـ: \"" + keyword + "\". يمكنك التواصل معنا مباشرة عبر واتساب للاستفسار.");
+            }
+        }
+
+        window.onload = loadSiteData;
+    </script>
+</body>
+</html>
