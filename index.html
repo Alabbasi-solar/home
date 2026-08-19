@@ -333,18 +333,36 @@
         }
 
         function loadSiteData() {
-            // تم إزالة القيم والولايات الافتراضية نهائياً لتعتمد اللوحة على ما تدخله أنت فقط
+            // إعادة إدراج الولايات والقيم الافتراضية
             siteData = JSON.parse(localStorage.getItem('abbasi_cms')) || {
                 galleryTitle: "معرض الصور الذكي",
                 galleryTitleEn: "Smart Photo Gallery",
                 galleryDesc: "لقطات حية لأحدث تقنيات ومنظومات الطاقة الشمسية المركبة.",
                 galleryDescEn: "Live shots of the latest installed solar systems.",
-                galleryImages: [],
+                galleryImages: [
+                    "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=1200",
+                    "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=1200"
+                ],
                 articleTitle: "أهمية اختيار الإنفرتر المناسب للأحمال المنزلية والزراعية",
                 articleTitleEn: "The Importance of Choosing the Right Inverter",
-                articleContent: "يعتبر الإنفرتر (العاكس) بمثابة قلب منظومة الطاقة الشمسية النابض...",
-                articleContentEn: "The inverter is the beating heart of the solar system...",
-                posts: [], // فارغة تماماً بدون أي ولايات افتراضية مسبقة
+                articleContent: "يعتبر الإنفرتر (العاكس) بمثابة قلب منظومة الطاقة الشمسية النابض. اختيار الإنفرتر ذو الموجة النقية (Pure Sine Wave) يحمي أجهزتك الحساسة مثل الثلاجات والمكيفات ويطيل من عمرها الافتراضي.",
+                articleContentEn: "The inverter is the beating heart of the solar system. Choosing a Pure Sine Wave inverter protects your sensitive appliances.",
+                posts: [
+                    { 
+                        title: "ولاية الخرطوم", 
+                        titleEn: "Khartoum State", 
+                        desc: "تركيب منظومة طاقة شمسية هجينة متكاملة للمنازل.", 
+                        descEn: "Installation of an integrated hybrid solar power system for homes.", 
+                        img: "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=600" 
+                    },
+                    { 
+                        title: "ولاية الجزيرة", 
+                        titleEn: "Al Jazirah State", 
+                        desc: "تشغيل مضخات الآبار الجوفية الزراعية بالطاقة الشمسية المباشرة.", 
+                        descEn: "Operation of agricultural deep well pumps with direct solar energy.", 
+                        img: "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=600" 
+                    }
+                ],
                 phone: "+249920025392",
                 address: "الخرطوم، السودان"
             };
@@ -386,7 +404,7 @@
                 slider.innerHTML = `<div class="p-8 text-center text-slate-400">لا توجد صور مضافة حالياً في المعرض.</div>`;
             }
 
-            // عرض مشاريع الولايات المتعددة ديناميكياً (تظهر فقط إذا قمت بإضافتها من لوحة التحكم)
+            // عرض مشاريع الولايات المتعددة ديناميكياً
             const postsContainer = document.getElementById('dynamic-posts-container');
             postsContainer.innerHTML = '';
             if (siteData.posts && siteData.posts.length > 0) {
