@@ -1,1 +1,19 @@
+backend:
+  name: github
+  repo: alabbasi-solar/home
+  branch: main
+
+media_folder: "images"
+public_folder: "images"
+
+collections:
+  - name: "content"
+    label: "إدارة المحتوى"
+    files:
+      - file: "data.json"
+        label: "بيانات الموقع"
+        name: "site_data"
+        fields:
+          - {label: "عنوان المعرض", name: "galleryTitle", widget: "string"}
+          - {label: "رقم الهاتف", name: "phone", widget: "string"}
 
