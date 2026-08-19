@@ -21,7 +21,7 @@
             <p class="text-slate-400 text-sm">أدخل كلمة السر للدخول (abbasi2026)</p>
         </div>
         <div class="space-y-4">
-            <input id="password-input" type="password" placeholder="كلمة السر..." class="w-full bg-slate-900/90 border border-slate-700 p-3.5 rounded-xl focus:border-amber-500 outline-none text-center text-lg tracking-widest">
+            <input id="password-input" type="password" placeholder="كلمة السر..." class="w-full bg-slate-900/90 border border-slate-700 p-3.5 rounded-xl focus:border-amber-500 outline-none text-center text-lg tracking-widest" onkeyup="if(event.key === 'Enter') checkPassword()">
             <button onclick="checkPassword()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg text-base">دخول</button>
             <p id="error-msg" class="text-red-400 text-xs hidden font-bold">كلمة السر غير صحيحة!</p>
         </div>
@@ -56,16 +56,14 @@
 
         <hr class="border-slate-800">
 
-        <!-- إدارة مشاريع الولايات (ديناميكية لأكثر من ولاية) -->
+        <!-- إدارة مشاريع الولايات -->
         <div class="space-y-6">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-amber-300">إدارة مشاريع الولايات</h2>
                 <button onclick="addProjectField()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold">+ إضافة ولاية جديدة</button>
             </div>
             
-            <div id="projects-container" class="space-y-4">
-                <!-- سيتم تعبئة الحقول برمجياً -->
-            </div>
+            <div id="projects-container" class="space-y-4"></div>
         </div>
 
         <button onclick="saveChanges()" id="save-btn" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-2xl transition text-lg shadow-xl">
@@ -97,16 +95,12 @@
                 document.getElementById('art-title').value = data.articleTitle || "";
                 document.getElementById('art-content').value = data.articleContent || "";
                 
-                // تعبئة مشاريع الولايات
                 const container = document.getElementById('projects-container');
                 container.innerHTML = '';
+                // يعرض فقط المشاريع الموجودة فعلياً في التخزين دون إضافة قيم افتراضية من عنده
                 if (data.posts && data.posts.length > 0) {
                     data.posts.forEach(p => addProjectField(p.title, p.img, p.desc));
-                } else {
-                    addProjectField();
                 }
-            } else {
-                addProjectField("ولاية الخرطوم", "", "تركيب منظومة طاقة شمسية هجينة متكاملة.");
             }
         }
 
@@ -146,7 +140,6 @@
             let artTitleAr = document.getElementById('art-title').value;
             let artContentAr = document.getElementById('art-content').value;
 
-            // جمع بيانات مشاريع الولايات المتعددة
             let posts = [];
             const projectBoxes = document.querySelectorAll('#projects-container > div');
             for (let box of projectBoxes) {
@@ -173,7 +166,8 @@
                 articleTitleEn: await translateText(artTitleAr),
                 articleContent: artContentAr,
                 articleContentEn: await translateText(artContentAr),
-                posts: posts
+                posts: posts,
+                lastUpdated: Date.now()
             };
 
             localStorage.setItem('abbasi_cms', JSON.stringify(data));
