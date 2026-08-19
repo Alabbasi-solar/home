@@ -485,24 +485,55 @@
             const keyword = document.getElementById('search-input').value.trim().toLowerCase();
             if(!keyword) return;
 
-            const searchableItems = [
-                { terms: ['لوح', 'ألواح', 'طاقة', 'شمسية', 'شمس'], target: 'hero' },
-                { terms: ['معرض', 'صور', 'مقال', 'انفرتر', 'عكس', 'موجة', 'تقني'], target: 'gallery' },
-                { terms: ['مشروع', 'مشاريع', 'سكنية', 'منظومة', 'ولاية', 'الولايات'], target: 'portfolio' },
-                { terms: ['استشارة', 'منزلي', 'مضخات', 'مياه', 'زراعية', 'سعر', 'عروض', 'صيانة', 'فحص'], target: 'consult' },
-                { terms: ['موقع', 'عنوان', 'هاتف', 'اتصال', 'الخرطوم', 'السودان', 'خريطة'], target: 'location' }
-            ];
+            let matchedSection = null;
 
-            let foundMatch = false;
-            for (let item of searchableItems) {
-                if (item.terms.some(term => keyword.includes(term))) {
-                    document.getElementById(item.target).scrollIntoView({ behavior: 'smooth' });
-                    foundMatch = true;
-                    break;
+            // 1. البحث الديناميكي المباشر في محتوى المقال التقني المحدث
+            if (
+                (siteData.articleTitle && siteData.articleTitle.toLowerCase().includes(keyword)) || 
+                (siteData.articleContent && siteData.articleContent.toLowerCase().includes(keyword)) ||
+                (siteData.articleTitleEn && siteData.articleTitleEn.toLowerCase().includes(keyword)) ||
+                (siteData.articleContentEn && siteData.articleContentEn.toLowerCase().includes(keyword))
+            ) {
+                matchedSection = 'gallery';
+            }
+
+            // 2. البحث الديناميكي في مشاريع الولايات المضافة عبر لوحة الإدارة
+            if (!matchedSection && siteData.posts && siteData.posts.length > 0) {
+                for (let post of siteData.posts) {
+                    if (
+                        (post.title && post.title.toLowerCase().includes(keyword)) ||
+                        (post.desc && post.desc.toLowerCase().includes(keyword)) ||
+                        (post.titleEn && post.titleEn.toLowerCase().includes(keyword)) ||
+                        (post.descEn && post.descEn.toLowerCase().includes(keyword))
+                    ) {
+                        matchedSection = 'portfolio';
+                        break;
+                    }
                 }
             }
 
-            if (!foundMatch) {
+            // 3. البحث العام في أقسام الموقع الأساسية في حال لم تكن الكلمة داخل مقال مخصص
+            if (!matchedSection) {
+                const searchableItems = [
+                    { terms: ['لوح', 'ألواح', 'طاقة', 'شمسية', 'شمس', 'solar', 'panel'], target: 'hero' },
+                    { terms: ['معرض', 'صور', 'مقال', 'انفرتر', 'عكس', 'موجة', 'تقني', 'gallery', 'article'], target: 'gallery' },
+                    { terms: ['مشروع', 'مشاريع', 'سكنية', 'منظومة', 'ولاية', 'الولايات', 'project', 'state'], target: 'portfolio' },
+                    { terms: ['استشارة', 'منزلي', 'مضخات', 'مياه', 'زراعية', 'سعر', 'عروض', 'صيانة', 'فحص', 'pump', 'consult'], target: 'consult' },
+                    { terms: ['موقع', 'عنوان', 'هاتف', 'اتصال', 'الخرطوم', 'السودان', 'خريطة', 'location', 'phone'], target: 'location' }
+                ];
+
+                for (let item of searchableItems) {
+                    if (item.terms.some(term => keyword.includes(term))) {
+                        matchedSection = item.target;
+                        break;
+                    }
+                }
+            }
+
+            // الانتقال السلس للقسم المطابق أو إظهار تنبيه
+            if (matchedSection) {
+                document.getElementById(matchedSection).scrollIntoView({ behavior: 'smooth' });
+            } else {
                 alert("عذراً، لم يتم العثور على نتائج مطابقة لـ: \"" + keyword + "\". يمكنك التواصل معنا مباشرة عبر واتساب للاستفسار.");
             }
         }
